@@ -84,7 +84,7 @@ function Logo({ small }) {
       </div>
       {!small && (
         <span style={{
-          fontFamily:"'DM Sans',sans-serif", fontSize:17, fontWeight:700,
+          fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:17, fontWeight:700,
           color:"#1a1a2e", letterSpacing:"-.4px", whiteSpace:"nowrap"
         }}>
           Budget
@@ -142,7 +142,7 @@ function MobileLayout({ tab, setTab, onAdd, onExport, onImport, children }) {
               padding:"6px 0", transition:"color .15s"
             }}>
               <Icon d={ICONS[id]} stroke={active?"#1A73E8":"#9AA0A6"} strokeWidth={active?2:1.7} size={20}/>
-              <span style={{fontSize:10, fontWeight: active?700:500, fontFamily:"'DM Sans',sans-serif"}}>{label}</span>
+              <span style={{fontSize:10, fontWeight: active?700:500, fontFamily:"'Plus Jakarta Sans',sans-serif"}}>{label}</span>
             </button>
           );
         })}
@@ -185,7 +185,7 @@ function MobileLayout({ tab, setTab, onAdd, onExport, onImport, children }) {
                 width:"100%", padding:"14px 24px", border:"none",
                 background:"transparent", cursor:"pointer",
                 fontSize:15, color:"#3C4043", fontWeight:500,
-                fontFamily:"'DM Sans',sans-serif"
+                fontFamily:"'Plus Jakarta Sans',sans-serif"
               }}>
                 <Icon d={icon} stroke="#5F6368" size={20}/>
                 {label}
@@ -218,7 +218,7 @@ function DesktopLayout({ tab, setTab, collapsed, setCollapsed, onAdd, onExport, 
         color: active ? "#1A73E8" : "#3C4043",
         fontWeight: active ? 700 : 500,
         fontSize:14, transition:"background .15s", marginBottom:2,
-        fontFamily:"'DM Sans',sans-serif"
+        fontFamily:"'Plus Jakarta Sans',sans-serif"
       }}
         onMouseEnter={e=>{ if(!active) e.currentTarget.style.background="#F1F3F4"; }}
         onMouseLeave={e=>{ if(!active) e.currentTarget.style.background="transparent"; }}
@@ -266,7 +266,7 @@ function DesktopLayout({ tab, setTab, collapsed, setCollapsed, onAdd, onExport, 
             background:"#1A73E8", color:"#fff",
             fontWeight:700, fontSize:14,
             boxShadow:"0 1px 4px rgba(26,115,232,.4)",
-            transition:"all .2s", fontFamily:"'DM Sans',sans-serif"
+            transition:"all .2s", fontFamily:"'Plus Jakarta Sans',sans-serif"
           }}
             onMouseEnter={e=>e.currentTarget.style.boxShadow="0 3px 10px rgba(26,115,232,.5)"}
             onMouseLeave={e=>e.currentTarget.style.boxShadow="0 1px 4px rgba(26,115,232,.4)"}
@@ -295,7 +295,7 @@ function DesktopLayout({ tab, setTab, collapsed, setCollapsed, onAdd, onExport, 
               borderRadius:10, border:"none", cursor:"pointer",
               background:"transparent", color:"#5F6368",
               fontSize:13, fontWeight:500, transition:"background .15s", marginBottom:2,
-              fontFamily:"'DM Sans',sans-serif"
+              fontFamily:"'Plus Jakarta Sans',sans-serif"
             }}
               onMouseEnter={e=>e.currentTarget.style.background="#F1F3F4"}
               onMouseLeave={e=>e.currentTarget.style.background="transparent"}

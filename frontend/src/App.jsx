@@ -101,7 +101,7 @@ export default function App() {
   const TAB_TITLES = { dashboard:"Dashboard", list:"Lista movimenti", tags:"Gestione tag" };
 
   if (loading) return (
-    <div style={{fontFamily:"'DM Sans',sans-serif", display:"flex", alignItems:"center",
+    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", display:"flex", alignItems:"center",
       justifyContent:"center", height:"100vh", background:"#F1F3F4",
       color:"#9AA0A6", fontSize:15, fontWeight:600}}>
       Caricamento…
@@ -109,7 +109,7 @@ export default function App() {
   );
 
   if (error) return (
-    <div style={{fontFamily:"'DM Sans',sans-serif", display:"flex", flexDirection:"column",
+    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", display:"flex", flexDirection:"column",
       alignItems:"center", justifyContent:"center", height:"100vh",
       background:"#F1F3F4", gap:16, padding:32, textAlign:"center"}}>
       <div style={{fontSize:40}}>⚠️</div>
@@ -128,7 +128,7 @@ export default function App() {
   const pageContent = (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
         * { box-sizing:border-box; margin:0; padding:0; }
         button, input, select, textarea { font-family: inherit; }
         ::-webkit-scrollbar { width:6px; }
