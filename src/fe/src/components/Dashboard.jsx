@@ -34,42 +34,60 @@ export default function Dashboard({ records, allTags, filters, yearLabel, onEdit
     return { byMonth, byTag, totalEntrate, totalUscite, saldo:totalEntrate-totalUscite, thisMonthE, thisMonthU };
   }, [dashRecords]);
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null;
+    return (
+      <div style={{
+        background:"#fff", border:"1px solid #e0e0e2", borderRadius:8,
+        padding:"10px 14px", fontSize:13, boxShadow:"0 4px 12px rgba(0,0,0,.1)"
+      }}>
+        <div style={{fontWeight:700, marginBottom:6, color:"#1d1d1f"}}>{label}</div>
+        {payload.map(p => (
+          <div key={p.name} style={{color:p.color, fontWeight:600}}>
+            {p.name}: {fmt(p.value)}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="page-content">
 
-      {/* KPIs */}
+      {/* KPI */}
       <div className="kpi-grid">
-        <KpiCard label="Entrate totali" value={fmt(stats.totalEntrate)} color="#059669"
-          sub={`${dashRecords.filter(r=>r.type==="entrata").length} voci`}/>
-        <KpiCard label="Uscite totali"  value={fmt(stats.totalUscite)}  color="#DC2626"
-          sub={`${dashRecords.filter(r=>r.type==="uscita").length} voci`}/>
+        <KpiCard label="Entrate totali" value={fmt(stats.totalEntrate)} color="#1b6b3a"
+          sub={`${dashRecords.filter(r=>r.type==="entrata").length} movimenti`}/>
+        <KpiCard label="Uscite totali"  value={fmt(stats.totalUscite)}  color="#b91c1c"
+          sub={`${dashRecords.filter(r=>r.type==="uscita").length} movimenti`}/>
         <KpiCard label="Saldo" value={fmt(stats.saldo)}
-          color={stats.saldo>=0?"#059669":"#DC2626"}
-          sub={stats.saldo>=0?"Positivo 🟢":"Negativo 🔴"}/>
+          color={stats.saldo>=0?"#1b6b3a":"#b91c1c"}
+          sub={stats.saldo>=0?"Positivo ↑":"Negativo ↓"}/>
         <KpiCard label={`${MONTHS_FULL[new Date().getMonth()]} — netto`}
-          value={fmt(stats.thisMonthE-stats.thisMonthU)}
-          color={(stats.thisMonthE-stats.thisMonthU)>=0?"#059669":"#DC2626"}
-          sub={`+${fmt(stats.thisMonthE)} / -${fmt(stats.thisMonthU)}`}/>
+          value={fmt(stats.thisMonthE - stats.thisMonthU)}
+          color={(stats.thisMonthE-stats.thisMonthU)>=0?"#1b6b3a":"#b91c1c"}
+          sub={`+${fmt(stats.thisMonthE)} / −${fmt(stats.thisMonthU)}`}/>
       </div>
 
-      {/* Bar chart */}
+      {/* Grafico */}
       <Card className="card--mb" title={`Entrate vs Uscite — ${yearLabel}`}>
-        <ResponsiveContainer width="100%" height={230}>
-          <BarChart data={MONTHS.map(m=>({name:m, Entrate:stats.byMonth[m].entrate||0, Uscite:stats.byMonth[m].uscite||0}))}
-            barGap={4} barCategoryGap="30%">
-            <XAxis dataKey="name" tick={{fontSize:11,fill:"#6b6b74"}} axisLine={false} tickLine={false}/>
-            <YAxis tickFormatter={v=>v>0?fmtS(v):""} tick={{fontSize:11,fill:"#6b6b74"}} axisLine={false} tickLine={false} width={48}/>
-            <Tooltip formatter={(v,n)=>[fmt(v),n]} contentStyle={{borderRadius:10,border:"1px solid #2e2e32",fontSize:12,background:"#1c1c1f",color:"#e8e8ea"}}/>
-            <Legend iconType="circle" iconSize={8} wrapperStyle={{fontSize:13,paddingTop:12}}/>
-            <Bar dataKey="Entrate" fill="#00b386" radius={[5,5,0,0]}/>
-            <Bar dataKey="Uscite"  fill="#f04438" radius={[5,5,0,0]}/>
+        <ResponsiveContainer width="100%" height={240}>
+          <BarChart
+            data={MONTHS.map(m=>({name:m, Entrate:stats.byMonth[m].entrate||0, Uscite:stats.byMonth[m].uscite||0}))}
+            barGap={3} barCategoryGap="32%">
+            <XAxis dataKey="name" tick={{fontSize:11,fill:"#9898a0",fontFamily:"inherit"}} axisLine={false} tickLine={false}/>
+            <YAxis tickFormatter={v=>v>0?fmtS(v):""} tick={{fontSize:11,fill:"#9898a0",fontFamily:"inherit"}} axisLine={false} tickLine={false} width={50}/>
+            <Tooltip content={<CustomTooltip/>}/>
+            <Legend iconType="circle" iconSize={8} wrapperStyle={{fontSize:13,paddingTop:14,fontFamily:"inherit"}}/>
+            <Bar dataKey="Entrate" fill="#a8d9bc" radius={[4,4,0,0]}/>
+            <Bar dataKey="Uscite"  fill="#fca5a5" radius={[4,4,0,0]}/>
           </BarChart>
         </ResponsiveContainer>
       </Card>
 
       {/* Tag tiles */}
       {Object.keys(stats.byTag).length > 0 && (
-        <Card className="card--mb" title="Movimenti per tag">
+        <Card className="card--mb" title="Distribuzione per tag">
           <div className="tag-tiles">
             {Object.entries(stats.byTag).sort((a,b)=>b[1]-a[1]).map(([t,v],i) => (
               <div key={t} className="tag-tile" onClick={onViewAll}
@@ -85,7 +103,7 @@ export default function Dashboard({ records, allTags, filters, yearLabel, onEdit
         </Card>
       )}
 
-      {/* Recent */}
+      {/* Recenti */}
       <Card title="Movimenti recenti"
         action={<button className="view-all-btn" onClick={onViewAll}>Vedi tutti →</button>}>
         {records.length === 0
