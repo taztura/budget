@@ -79,7 +79,7 @@ export default function App() {
       const blob = new Blob([JSON.stringify(data, null, 2)], { type:"application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "spesemese-backup.json"; a.click();
+      a.download = "budget-backup.json"; a.click();
       showToast("Backup esportato ✓");
     } catch { showToast("Errore nel backup", "err"); }
   }
@@ -97,74 +97,30 @@ export default function App() {
     [records]
   );
   const yearLabel = filters.year || (availableYears[0] ?? new Date().getFullYear().toString());
-
   const TAB_TITLES = { dashboard:"Dashboard", list:"Lista movimenti", tags:"Gestione tag" };
 
-  if (loading) return (
-    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", display:"flex", alignItems:"center",
-      justifyContent:"center", height:"100vh", background:"#F1F3F4",
-      color:"#9AA0A6", fontSize:15, fontWeight:600}}>
-      Caricamento…
-    </div>
-  );
+  if (loading) return <div className="app-loading">Caricamento…</div>;
 
   if (error) return (
-    <div style={{fontFamily:"'Plus Jakarta Sans',sans-serif", display:"flex", flexDirection:"column",
-      alignItems:"center", justifyContent:"center", height:"100vh",
-      background:"#F1F3F4", gap:16, padding:32, textAlign:"center"}}>
-      <div style={{fontSize:40}}>⚠️</div>
-      <div style={{fontSize:16, fontWeight:700, color:"#3C4043"}}>{error}</div>
-      <div style={{background:"#fff", borderRadius:10, padding:"14px 20px",
-        fontSize:13, color:"#5F6368", fontFamily:"monospace", lineHeight:2}}>
-        cd backend<br/>npm install<br/>npm run dev
-      </div>
-      <button onClick={reload} style={{padding:"10px 24px", borderRadius:20,
-        background:"#1A73E8", color:"#fff", border:"none", fontWeight:700, fontSize:14, cursor:"pointer"}}>
-        Riprova
-      </button>
+    <div className="app-error">
+      <div className="app-error__icon">⚠️</div>
+      <div className="app-error__title">{error}</div>
+      <div className="app-error__code">cd backend<br/>npm install<br/>npm run dev</div>
+      <button className="app-error__btn" onClick={reload}>Riprova</button>
     </div>
   );
 
-  const pageContent = (
-    <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
-        * { box-sizing:border-box; margin:0; padding:0; }
-        button, input, select, textarea { font-family: inherit; }
-        ::-webkit-scrollbar { width:6px; }
-        ::-webkit-scrollbar-thumb { background:#dadce0; border-radius:3px; }
-        @keyframes fi      { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
-        @keyframes ti      { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
-        @keyframes oi      { from { opacity:0; } to { opacity:1; } }
-        @keyframes mi      { from { opacity:0; transform:translateY(12px) scale(.98); } to { opacity:1; transform:none; } }
-        @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
-        .rh:hover      { background:#F8F9FA !important; }
-        .tag-tile:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(0,0,0,.1) !important; }
-      `}</style>
-
+  return (
+    <Sidebar tab={tab} setTab={setTab} collapsed={collapsed} setCollapsed={setCollapsed}
+      onAdd={openAdd} onExport={handleExport} onImport={handleImport}>
       <Toast toast={toast}/>
-      <RecordModal
-        modal={modal} form={form} setForm={setForm} allTags={allTags}
-        onSave={saveForm} onDelete={handleDeleteRecord}
-        onClose={closeModal} onAddTag={handleAddTag}
-      />
-
-      {/* Page title */}
-      <div style={{marginBottom:20}}>
-        <h1 style={{fontFamily:"'Playfair Display',serif",
-          fontSize:24, fontWeight:700, color:"#1a1a2e"}}>
-          {TAB_TITLES[tab]}
-        </h1>
-      </div>
-
+      <RecordModal modal={modal} form={form} setForm={setForm} allTags={allTags}
+        onSave={saveForm} onDelete={handleDeleteRecord} onClose={closeModal} onAddTag={handleAddTag}/>
+      <h1 className="page-title">{TAB_TITLES[tab]}</h1>
       {tab !== "tags" && (
-        <YearPills
-          availableYears={availableYears}
-          selectedYear={filters.year}
-          onChange={y => setFilters(f => ({ ...f, year:y }))}
-        />
+        <YearPills availableYears={availableYears} selectedYear={filters.year}
+          onChange={y => setFilters(f => ({ ...f, year:y }))}/>
       )}
-
       {tab === "dashboard" && (
         <Dashboard records={records} allTags={allTags} filters={filters}
           yearLabel={yearLabel} onEditRecord={openEdit} onViewAll={()=>setTab("list")}/>
@@ -177,16 +133,6 @@ export default function App() {
         <TagsView allTags={allTags} records={records}
           onAddTag={handleAddTag} onDeleteTag={handleDeleteTag}/>
       )}
-    </>
-  );
-
-  return (
-    <Sidebar
-      tab={tab} setTab={setTab}
-      collapsed={collapsed} setCollapsed={setCollapsed}
-      onAdd={openAdd} onExport={handleExport} onImport={handleImport}
-    >
-      {pageContent}
     </Sidebar>
   );
 }
