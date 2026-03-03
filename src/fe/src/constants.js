@@ -4,18 +4,13 @@ export const MONTHS_FULL = [
   "Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"
 ];
 
-// Dark-mode tag palette: muted bg + vivid text
 export const TAG_COLORS = [
-  "rgba(246,130,31,.15)",  "rgba(59,130,246,.15)",  "rgba(0,179,134,.15)",
-  "rgba(167,139,250,.15)", "rgba(251,191,36,.15)",  "rgba(251,113,133,.15)",
-  "rgba(52,211,153,.15)",  "rgba(99,179,237,.15)",  "rgba(248,113,113,.15)",
-  "rgba(196,181,253,.15)", "rgba(110,231,183,.15)", "rgba(253,186,116,.15)"
+  "#fef3e8","#e8f0fd","#e8f5ed","#f3f0ff","#fffbeb",
+  "#fef2f2","#e8f8fc","#f0f9f4","#fef9ec","#eff6ff","#f0fdf4","#fdf4ff"
 ];
 export const TAG_TEXT = [
-  "#f6821f", "#60a5fa", "#00b386",
-  "#a78bfa", "#fbbf24", "#fb7185",
-  "#34d399", "#63b3ed", "#f87171",
-  "#c4b5fd", "#6ee7b7", "#fda974"
+  "#c05a0a","#1d4ed8","#1b6b3a","#5b21b6","#92400e",
+  "#b91c1c","#0369a1","#166534","#b45309","#1e40af","#15803d","#7e22ce"
 ];
 
 export function fmt(n) {
