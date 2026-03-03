@@ -5,12 +5,17 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    // Proxy API calls al backend in sviluppo
     proxy: {
       "/records": "http://localhost:8000",
       "/tags":    "http://localhost:8000",
       "/backup":  "http://localhost:8000",
       "/restore": "http://localhost:8000",
     }
+  },
+  build: {
+    // Compila direttamente nella root del progetto
+    // così server.js trova dist/ senza cp
+    outDir: "../../dist",
+    emptyOutDir: true
   }
 });

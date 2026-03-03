@@ -11,8 +11,8 @@ const PORT = process.env.PORT || 8000;
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend statico
-const DIST = join(__dirname, "dist");
+// dist viene copiata nella root del progetto dal build script
+const DIST = join(__dirname, "../../dist");
 app.use(express.static(DIST));
 
 await initDb();
@@ -106,5 +106,5 @@ app.get("*", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Budget app avviata su http://localhost:${PORT}`);
+  console.log(`🚀 Budget avviato su http://localhost:${PORT}`);
 });
